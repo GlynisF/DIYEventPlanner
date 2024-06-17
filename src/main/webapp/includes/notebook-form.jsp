@@ -9,7 +9,7 @@
             </div>
         </div>
         <div class="row g-3">
-        <button type="submit" class="btn btn-outline-success" id="addNotebook">Add Notebooks</button>
+        <button type="submit" class="btn btn-outline-success" id="addNotebook">Add Notebook</button>
         </div>
     </form>
 </div>
