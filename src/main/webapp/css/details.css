@@ -1,0 +1,21 @@
+span.card-header.details-header {
+    background: rgb(245, 240, 245);
+    background: radial-gradient(circle, rgba(245, 240, 245, 0.8884803921568627) 0%, rgba(52, 68, 69, 1) 45%, rgba(38, 66, 41, 1) 62%, rgba(152, 166, 186, 1) 79%, rgba(245, 239, 239, 0.9136904761904762) 100%);
+    background-size: cover;
+}
+
+.input-group {
+    display: flex;
+    align-items: center;
+}
+.input-group-text {
+    width: 120px; /* Set a fixed width for all span elements */
+    text-align: right; /* Align text to the right */
+    margin-right: 10px; /* Space between span and input */
+}
+#locationBody .form-control {
+    flex: 1; /* Take up the remaining space */
+}
+.col-sm {
+    padding: 10px 0; /* Add some padding for better spacing */
+}

@@ -1,0 +1,66 @@
+<div class="container mx-auto justify-content-evenly">
+    <form id="addLocationForm" class="align-items-center">
+        <div class="row mb-3 g-3">
+        <div class="form-floating col-sm-6">
+            <input class="form-control mw-50" type="text" id="locationName" name="locationName" placeholder="venue">
+            <label for="locationName">Venue</label>
+            <div class="row list-group" id="places"></div>
+        </div>
+        </div>
+        <div class="row mb-3 g-3">
+        <div class="form-floating col-sm-7">
+            <input class="form-control mw-75" type="text" id="address" name="address" placeholder="address">
+            <label for="address">Address</label>
+        </div>
+        </div>
+        <div class="row mb-3 g-3">
+            <div class="form-floating col-sm-7">
+                <input class="form-control mw-75" type="text" id="address2" name="address2" placeholder="address 2">
+                <label for="address2">Address 2</label>
+            </div>
+        <div class="row mb-3 g-3">
+        <div class="form-floating col-sm-6">
+            <input class="form-control" type="text" id="city" name="city" placeholder="city">
+            <label for="city">City</label>
+        </div>
+        <div class="form-floating col-sm-2">
+            <input class="form-control" type="text" id="state" name="state" placeholder="state">
+            <label for="state">State</label>
+        </div>
+        <div class="form-floating col-sm-4">
+            <input class="form-control" type="text" id="zip" name="zip" placeholder="zip">
+            <label for="zip">Zip</label>
+        </div>
+        </div>
+        <div class="row g-3 mb-3">
+        <div class="form-floating col-sm-3">
+            <input class="form-control" type="text" id="phoneNumber" name="phoneNumber" placeholder="phone #">
+            <label for="phoneNumber">Phone #</label>
+        </div>
+        <div class="form-floating col-sm-9">
+            <input class="form-control" type="text" id="website" name="website" placeholder="website">
+            <label for="website">Website</label>
+            <input class="form-floating visually-hidden" type="number" id="location-eventId" placeholder="location eventId">
+            <label for="location-eventId"></label>
+        </div>
+        </div>
+            <div class="row mb-3 g-3">
+                <fieldset class="col-sm">
+                    <legend>Accessibility</legend>
+                <div class="form-check">
+                    <input class="form-check-input accessibility" name="accessible" type="checkbox" value="true" id="true">
+                    <label class="form-check-label" for="true">
+                        Yes
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input accessibility" name="accessible" type="checkbox" value="false" id="false">
+                    <label class="form-check-label" for="false">
+                       No
+                    </label>
+                </div>
+                </fieldset>
+            </div>
+        </div>
+    </form>
+</div>
