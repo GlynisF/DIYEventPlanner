@@ -65,6 +65,25 @@ public class GenericDao<T> {
         session.close();
     }
 
+    public boolean deleteEntity(T entity) {
+        boolean success = false;
+        Session session = getSession();
+        Transaction transaction = session.beginTransaction();
+        try {
+            session.delete(entity);
+            transaction.commit();
+            success = true;  // If no exception is thrown, deletion was successful
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            logger.error("Error deleting entity", e);
+        } finally {
+            session.close();
+        }
+        return success;
+    }
+
     /**
      * Save or update an entity.
      *

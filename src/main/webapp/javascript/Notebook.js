@@ -1,11 +1,11 @@
 class Notebook  {
-    constructor(title, user) {
+    constructor(title, user_id) {
         this.title = title;
-        this.user = user;
+        this.user_id = user_id;
     }
 
     displayNotebook() {
-        return `${this.title}, ${this.user}`;
+        return `${this.title}, ${this.user_id}`;
     }
 
 

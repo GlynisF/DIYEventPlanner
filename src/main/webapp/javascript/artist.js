@@ -5,7 +5,7 @@ let artistName;
 let email;
 let fee;
 
-const artistDisplay = async (data) => {
+const artistDisplay2 = async (data) => {
     data = data.artist[0];
     let td = '<tr>';
 
@@ -18,10 +18,6 @@ const artistDisplay = async (data) => {
         td += `<td><button class="btn btn-sm border-1" type="button" id="editArtist-${artist.id}"><i class="bi bi-pen"></i></button>`;
         td += `</tr>`;
     })
-
-    let body = document.getElementById("artistBody");
-    body.innerHTML = '';
-    body.innerHTML += td;
 
 
 }

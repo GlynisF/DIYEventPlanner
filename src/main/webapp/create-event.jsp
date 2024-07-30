@@ -11,13 +11,13 @@
 <html lang="en">
 <head>
   <%@ include file="./includes/head.jsp"%>
-  <script src="./javascript/addEvent.js"></script>
-  <script src="./javascript/locations.js"></script>
-  <script src="./javascript/Location.js"></script>
   <script src="./javascript/Notebook.js"></script>
   <script src="./javascript/User.js"></script>
-  <script src="./javascript/Event.js"></script>
+  <script src="javascript/Events.js"></script>
+  <script src="./javascript/locations.js"></script>
+  <script src="./javascript/Location.js"></script>
   <script src="./javascript/Artists.js"></script>
+  <script src="./javascript/addEvent.js"></script>
   <title>Title</title>
   <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="./css/details.css">
@@ -28,15 +28,17 @@
   </div>
 
 <body class="container-fluid">
-<div class="hidden" id="user">${sessionScope.user}</div>
+<c:set var="user" value="${sessionScope.userId}" scope="application"/>
+<div class="visually-hidden" data-id="${sessionScope.userId}"></div>
 
 <div class="row">
   <div class="card justify-content-evenly">
     <div class="card-body align-items-center">
       <c:import url="includes/notebook-form.jsp"/>
       <c:import url="./includes/event-form.jsp"/>
-      <c:import url="./includes/location-form.html"/>
       <c:import url="./includes/artist-form.jsp"/>
+      <c:import url="./includes/location-form.html"/>
+      <button type="button" class="btn btn-success" id="addEvent">Add</button>
     </div>
   </div>
 </div>

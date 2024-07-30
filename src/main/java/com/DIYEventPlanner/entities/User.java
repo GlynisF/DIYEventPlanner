@@ -2,6 +2,7 @@ package com.DIYEventPlanner.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
@@ -25,35 +26,42 @@ public class User {
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
     @GenericGenerator(name = "native", strategy = "native")
     @Column(name = "id", nullable = false)
+    @JsonProperty("id")
     private Integer id;
 
     @Size(max = 100)
     @NotNull
     @Column(name = "first_name", nullable = false, length = 100)
+    @JsonProperty("firstName")
     private String firstName;
 
     @Size(max = 100)
     @NotNull
     @Column(name = "last_name", nullable = false, length = 100)
+    @JsonProperty("lastName")
     private String lastName;
 
     @Size(max = 100)
     @NotNull
     @Column(name = "email", nullable = false, length = 100)
+    @JsonProperty("email")
     private String email;
 
     @Size(max = 50)
     @NotNull
     @Column(name = "username", nullable = false, length = 50)
+    @JsonProperty("username")
     private String username;
 
     @Size(max = 100)
     @NotNull
     @Column(name = "password", nullable = false, length = 100)
+    @JsonProperty("password")
     private String password;
 
     @NotNull
     @Column(name = "date_of_birth", nullable = false)
+    @JsonProperty("dateOfBirth")
     private LocalDate dateOfBirth;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
@@ -61,6 +69,16 @@ public class User {
     private Set<Notebook> notebooks = new HashSet<>();
 
     public User() {
+    }
+
+    public User(Integer id, String firstName, String lastName, String email, String username, String password, LocalDate dateOfBirth) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.username = username;
+        this.password = password;
+        this.dateOfBirth = dateOfBirth;
     }
 
     public User(String firstName, String lastName, String email, String username, String password, LocalDate dateOfBirth) {
@@ -100,6 +118,7 @@ public class User {
     public int hashCode() {
         return Objects.hash(id, firstName, lastName, email, username, password, dateOfBirth);
     }
+
 
     @Override
     public String toString() {

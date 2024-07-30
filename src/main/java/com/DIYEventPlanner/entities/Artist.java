@@ -25,26 +25,32 @@ public class Artist {
     @Column(name = "id", nullable = false)
     private Integer id;
 
+    @Setter
     @Size(max = 100)
     @NotNull
     @Column(name = "moniker", nullable = false, length = 100)
     private String moniker;
 
+    @Setter
     @Size(max = 100)
     @Column(name = "first_name", length = 100)
     private String firstName;
 
+    @Setter
     @Size(max = 100)
     @Column(name = "last_name", length = 100)
     private String lastName;
 
+    @Setter
     @Size(max = 100)
     @Column(name = "email", length = 100)
     private String email;
 
+    @Setter
     @Column(name = "booking_fee", precision = 10)
     private BigDecimal bookingFee;
 
+    @Setter
     @ManyToOne
     @JsonIgnore
     @JoinColumn(name = "event_id",
@@ -61,6 +67,16 @@ public class Artist {
         this.email = email;
         this.bookingFee = bookingFee;
         this.event = event;
+    }
+
+    public Artist updateArtist(Artist artist, Event event) {
+         artist.setMoniker(artist.getMoniker());
+         artist.setFirstName(artist.getFirstName());
+         artist.setLastName(artist.getLastName());
+         artist.setEmail(artist.getEmail());
+         artist.setBookingFee(artist.getBookingFee());
+         artist.setEvent(event);
+         return artist;
     }
 
     public String getBookingFeeFormatted() {

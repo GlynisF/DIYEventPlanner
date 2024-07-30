@@ -10,6 +10,18 @@ class User {
 
     }
 
+    toJSON() {
+        return {
+            "id": this.id,
+            "firstName": this.firstName,
+            "lastName": this.lastName,
+            "email": this.email,
+            "username": this.username,
+            "password": this.password,
+            "dateOfBirth": this.dateOfBirth
+        };
+    }
+
     getUser() {
         return this;
     }

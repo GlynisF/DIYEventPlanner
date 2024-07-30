@@ -42,5 +42,28 @@ class Location {
         );
     }
 
+}
+
+const locationDetails = async (data) => {
+    let form = document.getElementById('addLocationForm');
+
+    data.location.forEach(location => {
+        location = location[0];
+
+        form.elements.values = '';
+
+        if(form) {
+
+            form.elements['locationName'].value = location.locationName || '';
+            form.elements['phoneNumber'].value = location.phoneNumber || '';
+            form.elements['address'].value = location.address || '';
+            form.elements['address2'].value = location.address2 || '';
+            form.elements['city'].value = location.city || '';
+            form.elements['state'].value = location.state || '';
+            form.elements['zip'].value = location.zip || '';
+            form.elements['website'].value = location.website || '';
+        }
+
+    })
 
 }

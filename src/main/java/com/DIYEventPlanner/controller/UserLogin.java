@@ -39,7 +39,7 @@ public class UserLogin extends HttpServlet {
             if (password.equals(user != null ? user.getPassword() : null)) {
                 int userId = user.getId();
                 session.setAttribute("user", user);
-                session.setAttribute("userId", userId);
+                session.setAttribute("userId", 1050);
                 RequestDispatcher dispatcher = request.getRequestDispatcher("homepage.jsp");
                 dispatcher.forward(request, response);
             } else {

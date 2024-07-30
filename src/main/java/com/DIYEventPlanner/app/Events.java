@@ -27,7 +27,6 @@ public class Events {
        GenericDao<User> userDao = new GenericDao<>(User.class);
        User user = userDao.getById(id);
        Set<Notebook> notebookSet = user.getNotebooks();
-
         if (!notebookSet.isEmpty()) {
 
             try {
@@ -52,31 +51,33 @@ public class Events {
         GenericDao<EventDetails> detailsDao = new GenericDao<>(EventDetails.class);
         GenericDao<Location> locationDao = new GenericDao<>(Location.class);
         GenericDao<Artist> artistDao = new GenericDao<>(Artist.class);
+        GenericDao<Event> eventDao = new GenericDao<>(Event.class);
 
         Map<String, List<Object>> map = new HashMap<>();
+        Event event = eventDao.getById(eventId);
         List<EventDetails> eventDetailsList = detailsDao.findByPropertyEqual("event", eventId);
         List<Location> locationList = locationDao.findByPropertyEqual("event", eventId);
         List<Artist> artistList = artistDao.findByPropertyEqual("event", eventId);
 
-        if (eventDetailsList != null && locationList != null && artistList != null) {
+        if (event != null && eventDetailsList != null && locationList != null && artistList != null) {
+            map.put("events", Collections.singletonList(event));
             map.put("eventDetails", Collections.singletonList(eventDetailsList));
             map.put("location", Collections.singletonList(locationList));
             map.put("artist", Collections.singletonList(artistList));
 
             try {
                 ObjectMapper mapper = new ObjectMapper();
-                Writer writer = new StringWriter();
-                mapper.writeValue(writer, map);
-                String json = writer.toString();
-    System.out.println(json);
+                String json = mapper.writeValueAsString(map);
+                System.out.println(json); // Optional: Print JSON for debugging
                 return Response.ok(json).build();
             } catch (JsonProcessingException e) {
-                throw new RuntimeException(e);
+                throw new RuntimeException("Error processing JSON", e);
             }
-            } else {
-                return Response.status(404).build();
-            }
+        } else {
+            return Response.status(Response.Status.NOT_FOUND).build();
         }
+    }
+
 
 }
 

@@ -10,7 +10,7 @@ let formattedAddress;
 let locationId;
 let venue;
 
-const setLocationData = (location) => {
+const setLocationData = async (location) => {
     venue = location.locationName || '';
     address = location.address || '';
     address2 = location.address2 || '';
@@ -85,6 +85,7 @@ const formatAddress = (location) => {
 const locationTable = async (data) => {
     data.location.forEach((location, i) => {
         let rowId = i + 1;
+        location = location[0];
         setLocationData(location[0]);
         (createInputGroup(`${venue}`, 'Venue', `locationName-${locationId}`, 'text', 'venue name', rowId));
         (createInputGroup(`${formattedAddress}`, 'Address', `address-${locationId}`, 'text', 'address', rowId));
@@ -110,7 +111,8 @@ const createInputGroup = (location, name, id, type, placeholder, rowId) => {
     td.appendChild(div);
     tr.appendChild(td);
 
-    document.getElementById('locationBody').appendChild(tr);
+    document.getElementById('locationBody').appendChild(div);
+    return div;
 }
 
 const createInputGroupDiv = () => {

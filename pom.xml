@@ -1,12 +1,12 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>org.example</groupId>
+  <groupId>com.DIYEventPlanner</groupId>
   <artifactId>DIYEventPlanner</artifactId>
   <packaging>war</packaging>
   <version>1.0-SNAPSHOT</version>
   <name>DIYEventPlanner Maven Webapp</name>
-  <url>http://maven.apache.org</url>
+  <url>https://maven.apache.org</url>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -88,14 +88,6 @@
       <scope>test</scope>
     </dependency>
 
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>${junit.version}</version>
-      <scope>test</scope>
-    </dependency>
-    <!-- end junit dependencies -->
-
     <!-- jstl -->
     <dependency>
       <groupId>jstl</groupId>
@@ -104,8 +96,6 @@
     </dependency>
 
     <!-- mysql -->
-
-
     <dependency>
       <groupId>com.mysql</groupId>
       <artifactId>mysql-connector-j</artifactId>
@@ -181,14 +171,13 @@
       <version>${jackson-version}</version>
     </dependency>
 
-
     <dependency>
       <groupId>com.fasterxml.jackson.core</groupId>
       <artifactId>jackson-databind</artifactId>
       <version>${jackson-version}</version>
     </dependency>
 
-
+    <!-- google dependencies -->
     <dependency>
       <groupId>com.google.api</groupId>
       <artifactId>api-common</artifactId>
@@ -201,7 +190,6 @@
       <version>2.0.0</version>
     </dependency>
 
-    <!-- https://mvnrepository.com/artifact/com.google.maps/google-maps-services -->
     <dependency>
       <groupId>com.google.maps</groupId>
       <artifactId>google-maps-services</artifactId>
@@ -213,9 +201,6 @@
       <artifactId>google-api-client-servlet</artifactId>
       <version>2.0.0</version>
     </dependency>
-
-    <!-- end google dependencies -->
-
 
     <!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-simple -->
     <dependency>
@@ -265,7 +250,6 @@
       <version>5.0.0-alpha.12</version>
     </dependency>
 
-
   </dependencies>
   <!-- end dependencies-->
   <build>
@@ -275,22 +259,10 @@
       <plugins>
 
         <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-compiler-plugin</artifactId>
-          <configuration>
-            <compilerArgs>
-              <arg>-Djps.track.ap.dependencies=true</arg>
-            </compilerArgs>
-          </configuration>
-        </plugin>
-
-        <!-- plugins start -->
-        <plugin>
           <artifactId>maven-resources-plugin</artifactId>
           <version>3.0.2</version>
         </plugin>
         <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-compiler-plugin</artifactId>
           <version>${maven-compiler-plugin-version}</version>
         </plugin>

@@ -10,9 +10,15 @@
 <html lang="en">
 <head>
     <%@ include file="./includes/head.jsp" %>
-    <script src="./javascript/display.js"></script>
     <script src="./javascript/artist.js"></script>
     <script src="./javascript/locations.js"></script>
+    <script src="./javascript/Location.js"></script>
+    <script src="./javascript/Notebook.js"></script>
+    <script src="./javascript/User.js"></script>
+    <script src="./javascript/Artists.js"></script>
+    <script src="javascript/Events.js"></script>
+    <script src="./javascript/display.js"></script>
+
     <title>Title</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="./css/details.css">
@@ -24,9 +30,9 @@
 
 
 <c:set var="user" value="${sessionScope.user}" scope="application"/>
-<div class="hidden" data-user="${sessionScope.userId}"></div>
+<div class="hidden" data-user="${user}"></div>
 
-<div class="row mt-5">
+<div class="row mt-5 mx-auto justify-content-evenly">
     <div class="col-sm-3 w-50 mb-3">
         <div class="card">
             <div class="card-body">
@@ -52,11 +58,13 @@
             </div>
             <div class="card-body" id="detailsCard">
                 <h5 class="card-title">Special title treatment</h5>
-                <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                <a href="#" class="btn btn-primary">Go somewhere</a>
-                <c:import url="includes/event-table.html"/>
-                <c:import url="./includes/artist-form.html"/>
+                <div class="container mx-auto mb-5" id="eventContainer"></div>
+                <c:import url="./includes/event-form.jsp"/>
+                <div class="container mx-auto mb-3" id="artistContainer"></div>
                 <c:import url="./includes/location-form.html"/>
+                <div class="row mb-3 g-3">
+                    <button type="button" class="btn btn-sm btn-outline-success col-sm-3" id="addEvent">Save</button>
+                </div>
             </div>
         </div>
     </div>

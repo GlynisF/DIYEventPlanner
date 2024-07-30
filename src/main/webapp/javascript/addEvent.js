@@ -1,11 +1,11 @@
 const baseURL = `http://localhost:8080/DIYEventPlanner_war/app/`;
 
-const init = async (e) => {
+const init = async () => {
     let locationField = document.getElementById('locationName');
 
     locationField.addEventListener('keyup', async (e) => {
         let predictions = await autocompleteFetch(e);
-        console.log(predictions)
+        console.log(predictions);
 
         let div = document.getElementById('places');
         div.innerHTML = '';
@@ -14,23 +14,18 @@ const init = async (e) => {
 
         predictions.forEach(prediction => {
             let li = createListItem(prediction);
-            li.addEventListener('click', async(e) => {
-                let id = e.target.getAttribute('id');
+            li.addEventListener('click', async (e) => {
                 let selectedLi = await autocompleteSelectedLocationListener(e);
                 await predictionsList(selectedLi);
-
-            })
+            });
             ul.appendChild(li);
-
-        })
+        });
 
         div.appendChild(ul);
-    })
+    });
 
-    document.getElementById('addNotebook').addEventListener('click', submitNotebook);
     document.getElementById('addEvent').addEventListener('click', runPostAjax);
-
-}
+};
 
 const predictionsList = async (prediction) => {
     document.getElementById('locationName').value = prediction.name;
@@ -40,8 +35,8 @@ const predictionsList = async (prediction) => {
     document.getElementById('zip').value = prediction.zip;
     document.getElementById('phoneNumber').value = prediction.phone_number;
     document.getElementById('website').value = prediction.website;
-    let accessibility = prediction.accessibility;
 
+    let accessibility = prediction.accessibility;
     if (accessibility === 'true') {
         document.getElementById('true').checked = true;
         document.getElementById('false').checked = false;
@@ -51,12 +46,9 @@ const predictionsList = async (prediction) => {
     }
 
     document.getElementById('places').innerHTML = '';
-}
+};
 
-const submitNotebook = async (e) => {
-    e.preventDefault();
-    alert('clicked');
-
+const submitNotebook = async () => {
     let form = document.getElementById('addNotebookForm');
     let title = form.elements['title'].value;
     let userId = document.getElementById('addNotebookUser').value;
@@ -66,19 +58,23 @@ const submitNotebook = async (e) => {
 
     try {
         let response = await sendNotebookData(notebook, userId);
-        console.log(response);
-        console.log(response.id);
-        document.getElementById('event-notebookId').value = `${response.id}`;
-        alert('Notebook added successfully!');
-
+        if (response.ok) {
+            let responseData = await response.json();
+            document.getElementById('event-notebookId').value = `${responseData.id}`;
+            alert('Notebook added successfully!');
+            return responseData.id;
+        } else {
+            throw new Error('Failed to add notebook');
+        }
     } catch (error) {
         alert('Error adding notebook. Please try again.');
         console.error('Error:', error);
+        throw error;
     }
-}
+};
 
 const sendNotebookData = async (notebook, userId) => {
-    let response = await fetch(`http://localhost:8080/DIYEventPlanner_war/app/notebooks`, {
+    return await fetch(`http://localhost:8080/DIYEventPlanner_war/app/notebooks`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -86,67 +82,58 @@ const sendNotebookData = async (notebook, userId) => {
         },
         body: JSON.stringify(notebook)
     });
+};
 
-    if (!response.ok) {
-        throw new Error('Failed to add notebook');
-    }
-
-    return response.json();
-}
-
-const runPostAjax = async e => {
+const runPostAjax = async (e) => {
     e.preventDefault();
-    await addEvent(e);
-    await addDetails(e);
-    await addLocation(e);
-    await addArtist(e);
-}
-
+    try {
+        let notebookId = await submitNotebook();
+        await addEvent(notebookId);
+        await addDetails();
+        await addLocation();
+        await addArtist();
+    } catch (error) {
+        console.error('Error in runPostAjax:', error);
+    }
+};
 
 const postFetch = async (entity, entityId, entityIdValue, entityType) => {
     let postEntity = await fetch(`${baseURL}${entityType}`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-            entityIdValue: entityId
+            [entityIdValue]: entityId
         },
         body: JSON.stringify(entity)
     });
 
     if (!postEntity.ok) {
-        throw new Error(`failed to add ${entityType}`);
+        throw new Error(`Failed to add ${entityType}`);
     }
-    return postEntity.json();
-}
+    return await postEntity.json();
+};
 
-const addEvent = async (e) => {
-    e.preventDefault();
-    alert('clicked');
-
+const addEvent = async (notebookId) => {
     let form = document.getElementById('addEventForm');
     let eventName = form.elements['eventName'].value;
-    let notebookId = form.elements['event-notebookId'].value;
 
     const event = new Event(eventName, notebookId);
     console.log(event);
 
     try {
-        let addEvent = await postFetch(event, notebookId, 'notebook_id', 'events');
-        document.getElementById('details-eventId').value = addEvent.id;
-        document.getElementById('location-eventId').value = addEvent.id;
-        document.getElementById('artist-eventId').value = addEvent.id;
+        let addedEvent = await postFetch(event, notebookId, 'notebook_id', 'events');
+        document.getElementById('details-eventId').value = addedEvent.id;
+        document.getElementById('location-eventId').value = addedEvent.id;
+        document.getElementById('artist-eventId').value = addedEvent.id;
     } catch (error) {
         alert('Error adding event');
         console.error(error);
+        throw error;
     }
+};
 
-}
-
-const addDetails = async (e) => {
-    e.preventDefault();
-
+const addDetails = async () => {
     let form = document.getElementById('addDetailsForm');
-
     let date = form.elements['date'].value;
     let startTime = form.elements['startTime'].value + ':00';
     let endTime = form.elements['endTime'].value + ':00';
@@ -156,18 +143,16 @@ const addDetails = async (e) => {
     console.log(eventDetails);
 
     try {
-        let addDetails = await postFetch(eventDetails, eventId, 'event_id', 'details');
-        console.log(addDetails);
+        await postFetch(eventDetails, eventId, 'event_id', 'details');
+        console.log('Details added successfully');
+    } catch (error) {
+        alert('Error adding event details');
+        console.error(error);
+        throw error;
     }
-    catch (err) {
-        alert('error adding event');
-        console.log(err, addDetails.responseText);
-    }
-}
+};
 
-const addArtist = async e => {
-    e.preventDefault();
-
+const addArtist = async () => {
     let form = document.getElementById('addArtistForm');
     let formData = {};
 
@@ -176,29 +161,24 @@ const addArtist = async e => {
             formData[element.name] = element.value;
         }
     }
-    console.log('formData: ' + JSON.stringify(formData))
+    console.log('formData: ' + JSON.stringify(formData));
 
-    let event_id = form.elements['artist-eventId'].value
-
-
+    let event_id = form.elements['artist-eventId'].value;
     let artist = new Artist(formData.moniker, formData.firstName, formData.lastName, formData.email, formData.bookingFee, event_id);
     console.log(artist);
 
     try {
-        let addDetails = await postFetch(artist, event_id, 'event_id', 'artist');
-        console.log(addDetails);
+        await postFetch(artist, event_id, 'event_id', 'artist');
+        console.log('Artist added successfully');
+    } catch (error) {
+        alert('Error adding artist');
+        console.error(error);
+        throw error;
     }
-    catch (err) {
-        alert('error adding artist');
-        console.log(err, addDetails.responseText);
-    }
-}
+};
 
-const addLocation = async e => {
-    e.preventDefault();
-
+const addLocation = async () => {
     let form = document.getElementById('addLocationForm');
-
     let locationName = form.elements['locationName'].value;
     let address = form.elements['address'].value;
     let address2 = form.elements['address2'].value;
@@ -207,29 +187,20 @@ const addLocation = async e => {
     let zip = form.elements['zip'].value;
     let phoneNumber = form.elements['phoneNumber'].value;
     let website = form.elements['website'].value;
-    let accessibility;
-    let checkedInput = document.getElementsByName(`accessible`);
-
-    checkedInput.forEach(checkedBox => {
-      accessibility = (checkedBox.getAttribute('checked') === 'true' ? checkedBox.value : 'false');
-    })
+    let accessibility = form.elements['accessible'].checked ? 'true' : 'false';
     let eventId = form.elements['location-eventId'].value;
 
-    let location = new Location(locationName, phoneNumber, address, address2, city, state, zip, website, accessibility, eventId)
-    console.log(location)
+    let location = new Location(locationName, phoneNumber, address, address2, city, state, zip, website, accessibility, eventId);
+    console.log(location);
+
     try {
-        let locationPost = await postFetch(location, eventId, 'event_id', 'location');
-        console.log(locationPost);
-        alert('success');
-    } catch (err) {
-        alert('error adding location');
-        console.log(err);
+        await postFetch(location, eventId, 'event_id', 'location');
+        console.log('Location added successfully');
+    } catch (error) {
+        alert('Error adding location');
+        console.error(error);
+        throw error;
     }
-
-
-}
+};
 
 window.onload = init;
-
-
-
